@@ -9,7 +9,9 @@ use regex::{Captures, Regex};
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::time::Duration;
-use sysinfo::{ComponentExt, CpuExt, DiskExt, NetworkExt, RefreshKind, System, SystemExt};
+use sysinfo::{
+    ComponentExt, CpuExt, CpuRefreshKind, DiskExt, NetworkExt, RefreshKind, System, SystemExt,
+};
 use tokio::sync::mpsc;
 use tokio::time::sleep;
 
@@ -327,11 +329,14 @@ fn refresh_memory_tokens(format_info: &mut HashMap<String, String>, sys: &mut Sy
 
 fn refresh_cpu_tokens(format_info: &mut HashMap<String, String>, sys: &mut System) {
     sys.refresh_cpu();
+    sys.refresh_cpu_specifics(CpuRefreshKind::new().with_frequency());
 
     let cpu_info = sys.global_cpu_info();
     let cpu_percent = cpu_info.cpu_usage();
+    let cpu_frequency = cpu_info.frequency();
 
     format_info.insert(String::from("cpu_percent"), format!("{cpu_percent:0>2.0}"));
+    format_info.insert(String::from("cpu_frequency"), cpu_frequency.to_string());
 }
 
 fn refresh_temp_tokens(format_info: &mut HashMap<String, String>, sys: &mut System) {

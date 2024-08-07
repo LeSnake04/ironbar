@@ -144,6 +144,7 @@ The following tokens can be used in the `format` configuration option:
 |--------------------------|------------------------------------------------------------------------------------|
 | **CPU**                  |                                                                                    |
 | `{cpu_percent}`          | Total CPU utilisation percentage                                                   |
+| `{cpu_frequency}`        | Total CPU frequency in MHz                                                         |
 | **Memory**               |                                                                                    |
 | `{memory_free}`          | Memory free in GB.                                                                 |
 | `{memory_used}`          | Memory used in GB.                                                                 |
